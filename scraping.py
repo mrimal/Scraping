@@ -10,6 +10,8 @@ Spyder Editor
 import mechanize
 import cookielib
 import config
+import BeautifulSoup
+import requests
 
 br = mechanize.Browser()
 cj = cookielib.LWPCookieJar()
@@ -40,4 +42,8 @@ br.form['password'] = config.password
 br.submit()
 
 z = br.open(config.url).read()
-print z
+#print(z)
+
+r = requests.post(config.url, data={'fromdate': '2016-12-25', 'todate': '2017-02-28', 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':'Yogurt'})
+print(r.status_code, r.reason)
+print(r.text)
