@@ -12,7 +12,8 @@ import cookielib
 import config
 from bs4 import BeautifulSoup
 import requests
-import pandas 
+import pandas
+from pandas import DataFrame
 
 
 br = mechanize.Browser()
@@ -45,20 +46,23 @@ br.submit()
 
 z = br.open(config.url).read()
 #print(z)
+fromdate = '2012-01-01'
+todate = '2016-12-30'
+#Sending post requests to the website for the data
 
-r = requests.post(config.url, data={'fromdate': '2016-12-25', 'todate': '2017-02-28', 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':'Yogurt'})
+r = requests.post(config.url, data={'fromdate': fromdate, 'todate': todate, 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':'Yogurt'})
 print(r.status_code, r.reason)
 soup = BeautifulSoup(r.text)
-#print soup
+print soup
 #print(r.text)
 
 try:
-    table = soup.find('table')
+    table = soup.find('table', {"class": "table"})
     rows = table.find_all('tr')
 except AttributeError as e:
     print 'No table found'
 
-print(table)
+#print(table)
 results = []
 
 for row in rows :
@@ -66,8 +70,14 @@ for row in rows :
     if table_headers:
         results.append([headers.get_text() for headers in table_headers])
     
-    table_data = row.find_all('td', attrs={'class': 'table'})    
+    table_data = row.find_all('td', attrs={})    
     if table_data:
         results.append([data.get_text() for data in table_data])
-        
-final_table = pandas.Dataframe(results, index = None)
+#print(results)        
+final_table = pandas.DataFrame(results, index=None)
+
+final_table.to_csv('newfile.csv',sep=",", index=False, columns=None, header=False)
+
+#writer = pandas.ExcelWriter('output.xlsx')
+#final_table.to_excel(writer,'Sheet1')
+#writer.save()
