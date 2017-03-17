@@ -10,8 +10,10 @@ Spyder Editor
 import mechanize
 import cookielib
 import config
-import BeautifulSoup
+from bs4 import BeautifulSoup
 import requests
+import pandas 
+
 
 br = mechanize.Browser()
 cj = cookielib.LWPCookieJar()
@@ -46,4 +48,26 @@ z = br.open(config.url).read()
 
 r = requests.post(config.url, data={'fromdate': '2016-12-25', 'todate': '2017-02-28', 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':'Yogurt'})
 print(r.status_code, r.reason)
-print(r.text)
+soup = BeautifulSoup(r.text)
+#print soup
+#print(r.text)
+
+try:
+    table = soup.find('table')
+    rows = table.find_all('tr')
+except AttributeError as e:
+    print 'No table found'
+
+print(table)
+results = []
+
+for row in rows :
+    table_headers = row.find_all('th')
+    if table_headers:
+        results.append([headers.get_text() for headers in table_headers])
+    
+    table_data = row.find_all('td', attrs={'class': 'table'})    
+    if table_data:
+        results.append([data.get_text() for data in table_data])
+        
+final_table = pandas.Dataframe(results, index = None)
