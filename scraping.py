@@ -55,6 +55,17 @@ print(r.status_code, r.reason)
 soup = BeautifulSoup(r.text)
 print soup
 #print(r.text)
+#pages_list = soup.find_all('input', name ='pg')
+
+pages_list = soup.find_all(name='input', attrs={'name': 'pg', 'type': 'hidden'})
+print(pages_list)
+
+a = 0 
+
+for pages in pages_list :
+    a = a + 1
+
+print a 
 
 try:
     table = soup.find('table', {"class": "table"})
