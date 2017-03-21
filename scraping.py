@@ -119,14 +119,9 @@ for i in range(2,a):
             results.append([data.get_text() for data in table_data])
 #print(results)        
     final_table = pandas.DataFrame(results, index=None)
-    #final_table.append(final_table2)
-    # writer = pandas.ExcelWriter('newOutput.xlsx')
-   # final_table2.to_excel(writer,'Sheet1')
-   # writer.save()
-#for i in range(2,a):
-   #print i
-#with open('newfile.csv', 'a') as f:
- #       final_table2.to_csv(f, header=False)
+    #with open('newOutput.csv','a') as f:
+       #final_table.to_csv(f, header=False)
+       
 print(final_table)
 writer = pandas.ExcelWriter('newOutput.xlsx')
 final_table.to_excel(writer, 'Sheet1' )
