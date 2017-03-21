@@ -112,10 +112,7 @@ for vegs in veggies:
         except AttributeError as e:
             print 'No table found'
 
-#print(table)
-   # resultsNew = []
-
-            for row in rows :
+        for row in rows :
                 table_headers = row.find_all('th')
                 #if table_headers:
                 #    results.append([headers.get_text() for headers in table_headers])
@@ -123,7 +120,7 @@ for vegs in veggies:
                 table_data = row.find_all('td', attrs={})    
                 if table_data:
                     results.append([data.get_text() for data in table_data])
-                    print(results)        
+                    #print(results)        
 
 
 
