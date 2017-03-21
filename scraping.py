@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas
 from pandas import DataFrame
-#import csv
+import csv
 
 br = mechanize.Browser()
 cj = cookielib.LWPCookieJar()
@@ -33,6 +33,7 @@ br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
 # The site we will navigate into, handling it's session
 br.open(config.loginurl)
 
+
 for f in br.forms():
     print f
 
@@ -48,7 +49,7 @@ z = br.open(config.url).read()
 #print(z)
 fromdate = '2012-01-01'
 todate = '2016-12-30'
-commodityName = 'Yogurt'
+#commodityName = 'Yogurt'
 #Sending post requests to the website for the data
 
 r = requests.post(config.url, data={'fromdate': fromdate, 'todate': todate, 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':commodityName})
