@@ -51,7 +51,9 @@ fromdate = '2012-01-01'
 todate = '2016-12-30'
 #commodityName = 'Yogurt'
 #Sending post requests to the website for the data
-veggies = pandas.read_csv('veggies2.csv')
+veggies = pandas.read_csv('veggies3.csv')
+
+results = []
 
 for vegs in veggies: 
     
@@ -79,7 +81,7 @@ for vegs in veggies:
         print 'No table found'
     
     #print(table)
-    results = []
+    
     
     for row in rows :
         table_headers = row.find_all('th')
@@ -90,7 +92,7 @@ for vegs in veggies:
         if table_data:
             results.append([data.get_text() for data in table_data])
     #print(results)        
-    final_table = pandas.DataFrame(results, index=None)
+   # final_table = pandas.DataFrame(results, index=None)
 
 #writer = pandas.ExcelWriter('output.xlsx')
 #final_table.to_excel(writer,'Sheet1')
@@ -113,16 +115,19 @@ for vegs in veggies:
 #print(table)
    # resultsNew = []
 
-    for row in rows :
-        #table_headers = row.find_all('th')
-        #if table_headers:
-        #    results.append([headers.get_text() for headers in table_headers])
-        
-        table_data = row.find_all('td', attrs={})    
-        if table_data:
-            results.append([data.get_text() for data in table_data])
-#print(results)        
-    final_table = pandas.DataFrame(results, index=None)
+            for row in rows :
+                table_headers = row.find_all('th')
+                #if table_headers:
+                #    results.append([headers.get_text() for headers in table_headers])
+                
+                table_data = row.find_all('td', attrs={})    
+                if table_data:
+                    results.append([data.get_text() for data in table_data])
+                    print(results)        
+
+
+
+final_table = pandas.DataFrame(results, index=None)
     #with open('newOutput.csv','a') as f:
        #final_table.to_csv(f, header=False)
        
