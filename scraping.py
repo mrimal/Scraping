@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas
 from pandas import DataFrame
-
+#import csv
 
 br = mechanize.Browser()
 cj = cookielib.LWPCookieJar()
@@ -88,11 +88,10 @@ for row in rows :
 #print(results)        
 final_table = pandas.DataFrame(results, index=None)
 
-#final_table.to_csv('newfile.csv',sep=",", index=False, columns=None, header=False)
-
-writer = pandas.ExcelWriter('output.xlsx')
-final_table.to_excel(writer,'Sheet1')
-writer.save()
+#writer = pandas.ExcelWriter('output.xlsx')
+#final_table.to_excel(writer,'Sheet1')
+#writer.save()
+   
 
 #Trying to loop over all the available page numbers and then appending the data to the excel file. 
 
@@ -100,7 +99,7 @@ for i in range(2,a):
     r = requests.post(config.url, data={'fromdate': fromdate, 'todate': todate, 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':commodityName, 'pg': i})
     print(r.status_code, r.reason)
     soup = BeautifulSoup(r.text)
-    print soup
+    print i
     try:
         table = soup.find('table', {"class": "table"})
         rows = table.find_all('tr')
@@ -108,22 +107,27 @@ for i in range(2,a):
         print 'No table found'
 
 #print(table)
-    results = []
+   # resultsNew = []
 
     for row in rows :
-        table_headers = row.find_all('th')
-        if table_headers:
-            results.append([headers.get_text() for headers in table_headers])
+        #table_headers = row.find_all('th')
+        #if table_headers:
+        #    results.append([headers.get_text() for headers in table_headers])
         
         table_data = row.find_all('td', attrs={})    
         if table_data:
             results.append([data.get_text() for data in table_data])
 #print(results)        
     final_table = pandas.DataFrame(results, index=None)
-
-    writer = pandas.ExcelWriter('output.xlsx')
-    final_table.to_excel(writer,'Sheet1')
-    writer.save()
+    #final_table.append(final_table2)
+    # writer = pandas.ExcelWriter('newOutput.xlsx')
+   # final_table2.to_excel(writer,'Sheet1')
+   # writer.save()
 #for i in range(2,a):
    #print i
-    
+#with open('newfile.csv', 'a') as f:
+ #       final_table2.to_csv(f, header=False)
+print(final_table)
+writer = pandas.ExcelWriter('newOutput.xlsx')
+final_table.to_excel(writer, 'Sheet1' )
+writer.save()
