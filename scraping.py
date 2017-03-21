@@ -94,6 +94,8 @@ writer = pandas.ExcelWriter('output.xlsx')
 final_table.to_excel(writer,'Sheet1')
 writer.save()
 
+#Trying to loop over all the available page numbers and then appending the data to the excel file. 
+
 for i in range(2,a):
     r = requests.post(config.url, data={'fromdate': fromdate, 'todate': todate, 'stype': 'commodity_wise', 'page':'commodity', 'commodity_english[]':commodityName, 'pg': i})
     print(r.status_code, r.reason)
@@ -123,5 +125,5 @@ for i in range(2,a):
     final_table.to_excel(writer,'Sheet1')
     writer.save()
 #for i in range(2,a):
- #   print i
+   #print i
     
