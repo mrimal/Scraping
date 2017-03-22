@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas
 from pandas import DataFrame
-import csv
+#import csv
 
 br = mechanize.Browser()
 cj = cookielib.LWPCookieJar()
@@ -48,10 +48,10 @@ br.submit()
 z = br.open(config.url).read()
 #print(z)
 fromdate = '2012-01-01'
-todate = '2016-12-30'
+todate = '2017-03-01'
 #commodityName = 'Yogurt'
 #Sending post requests to the website for the data
-veggies = pandas.read_csv('veggies3.csv')
+veggies = pandas.read_csv('veggies2.csv')
 
 results = []
 
@@ -61,11 +61,11 @@ for vegs in veggies:
     print(r.status_code, r.reason)
     soup = BeautifulSoup(r.text)
     print soup
-#print(r.text)
-#pages_list = soup.find_all('input', name ='pg')
+    #print(r.text)
+    #pages_list = soup.find_all('input', name ='pg')
 
     pages_list = soup.find_all(name='input', attrs={'name': 'pg', 'type': 'hidden'})
-#print(pages_list)
+    #print(pages_list)
 
     a = 1 
 
@@ -85,8 +85,8 @@ for vegs in veggies:
     
     for row in rows :
         table_headers = row.find_all('th')
-        if table_headers:
-            results.append([headers.get_text() for headers in table_headers])
+       # if table_headers:
+          #  results.append([headers.get_text() for headers in table_headers])
         
         table_data = row.find_all('td', attrs={})    
         if table_data:
@@ -129,6 +129,6 @@ final_table = pandas.DataFrame(results, index=None)
        #final_table.to_csv(f, header=False)
        
 print(final_table)
-writer = pandas.ExcelWriter('newOutput.xlsx')
+writer = pandas.ExcelWriter('newOutput2.xlsx')
 final_table.to_excel(writer, 'Sheet1' )
 writer.save()
