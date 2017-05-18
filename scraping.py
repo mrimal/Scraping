@@ -2,7 +2,7 @@
 """
 Spyder Editor
 
-@mrijan
+@mpr
 """
 
 
